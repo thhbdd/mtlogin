@@ -7,11 +7,12 @@ import (
 	"net/http"
 )
 
-// Constant for API URLs
-const (
-	tokenURL   = "https://qyapi.weixin.qq.com/cgi-bin/gettoken"
-	sendMsgURL = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s"
-)
+// 从环境变量中获取域名，默认为 "qyapi.weixin.qq.com"
+var wechatHost = getEnv("WECHAT_HOST", "qyapi.weixin.qq.com")
+
+// 使用 wechatHost 拼接完整的 URL
+var tokenURL   = fmt.Sprintf("https://%s/cgi-bin/gettoken", wechatHost)
+var sendMsgURL = fmt.Sprintf("https://%s/cgi-bin/message/send?access_token=%%s", wechatHost)
 
 // Token struct to hold access token
 type Token struct {
